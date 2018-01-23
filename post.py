@@ -24,7 +24,9 @@ def login():
         os.system("pause>nul")
         sys.exit()
 twitter = login()
-print(config.get('Twitter', 'Twitter_Access_Key'))
 game_name = input("Please enter the game name (Use normal scene writing, do not include a dash or the release group):")
 release_group = input("Please enter the short form of the release group (do not include a dash): ")
 thread_link = input("Please enter the discussion thread link:")
+twitter_results = game_name + "-" + release_group + "\n" + thread_link
+post_twitter = twitter.statuses.update(status = twitter_results)
+print "updated twitter status: %s" % twitter_results
