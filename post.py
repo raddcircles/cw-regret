@@ -1,11 +1,12 @@
 #!/usr/bin/python
-import configparser, os, sys, time
+import configparser, os, sys, tweepy, time
 from termcolor import colored
-from twitter import *
 config = configparser.ConfigParser()
 config.read('creds.ini')
-
-def login():
+game_name = input("Please enter the game name (Use normal scene writing, do not include a dash or the release group):")
+release_group = input("Please enter the short form of the release group (do not include a dash): ")
+thread_link = input("Please enter the discussion thread link:")
+def twitter():
     twitter_access_key = config.get('Twitter', 'Twitter_Access_Key')
     twitter_access_secret = config.get('Twitter', 'Twitter_Access_Secret')
     twitter_consumer_key = config.get('Twitter', 'Twitter_Consumer_Key')
@@ -15,18 +16,15 @@ def login():
         os.system("pause>nul")
         sys.exit()
     try:
-        twitter = Twitter(
-        auth = OAuth(config["twitter_access_key"], config["twitter_access_secret"], config["twitter_consumer_key"], config["twitter_consumer_secret"]))
-        print(colored("SUCCESS: Logged into Twitter!", 'green'))
-        return twitter
+        auth = tweepy.OAuthHandler(twitter_consumer_key, twitter_consumer_secret)
+        auth.set_access_token(twitter_access_key, twitter_access_secret)
+        api = tweepy.API(auth)
+        print(api.me().name)
+        twitter_results = game_name + "-" + release_group + "\n" + thread_link
+        api.update_status(status=twitter_results)
+        print("updated twitter status: %s" % twitter_results)
     except:
         print(colored("Invalid Twitter Credentials!", "red"))
         os.system("pause>nul")
         sys.exit()
-twitter = login()
-game_name = input("Please enter the game name (Use normal scene writing, do not include a dash or the release group):")
-release_group = input("Please enter the short form of the release group (do not include a dash): ")
-thread_link = input("Please enter the discussion thread link:")
-twitter_results = game_name + "-" + release_group + "\n" + thread_link
-post_twitter = twitter.statuses.update(status = twitter_results)
-print "updated twitter status: %s" % twitter_results
+exectwitter = twitter()
