@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import configparser, os, sys, tweepy
+import configparser, sys, tweepy
 from termcolor import colored
 config = configparser.ConfigParser()
 config.read('creds.ini')
@@ -22,7 +22,10 @@ def twitter():
         twitter_results = game_name + "-" + release_group + "\n" + thread_link + " #crackwatch #denuvo"
         api.update_status(status=twitter_results)
         return("updated twitter status: %s" % twitter_results)
-    except:
+    except LoginError:
         print(colored("Invalid Twitter Credentials!", "red"))
+        sys.exit()
+    else:
+        print("Oh no.")
         sys.exit()
 exectwitter = twitter()
