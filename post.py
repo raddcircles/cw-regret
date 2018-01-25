@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import configparser, os, sys, tweepy, time
+import configparser, os, sys, tweepy
 from termcolor import colored
 config = configparser.ConfigParser()
 config.read('creds.ini')
@@ -13,7 +13,6 @@ def twitter():
     twitter_consumer_secret = config.get('Twitter', 'Twitter_Consumer_Secret')
     if twitter_access_key == "replace_me" or twitter_access_secret == "replace_me" or twitter_consumer_key == "replace_me" or twitter_consumer_secret == "replace_me":
         print(colored("read the docs, idiot", 'red'))
-        os.system("pause>nul")
         sys.exit()
     try:
         auth = tweepy.OAuthHandler(twitter_consumer_key, twitter_consumer_secret)
@@ -22,9 +21,8 @@ def twitter():
         print(api.me().name)
         twitter_results = game_name + "-" + release_group + "\n" + thread_link + " #crackwatch #denuvo"
         api.update_status(status=twitter_results)
-        print("updated twitter status: %s" % twitter_results)
+        return("updated twitter status: %s" % twitter_results)
     except:
         print(colored("Invalid Twitter Credentials!", "red"))
-        os.system("pause>nul")
         sys.exit()
 exectwitter = twitter()
