@@ -20,7 +20,7 @@ def twitter():
         auth.set_access_token(twitter_access_key, twitter_access_secret)
         api = tweepy.API(auth)
         print(api.me().name)
-        twitter_results = game_name + "-" + release_group + "\n" + thread_link
+        twitter_results = game_name + "-" + release_group + "\n" + thread_link + " #crackwatch #denuvo"
         api.update_status(status=twitter_results)
         print("updated twitter status: %s" % twitter_results)
     except:
