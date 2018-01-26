@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import configparser, sys, tweepy
+import configparser, sys, tweepy, facepy
 from termcolor import colored
 config = configparser.ConfigParser()
 config.read('creds.ini')
