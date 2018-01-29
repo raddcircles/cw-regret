@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import configparser, sys, tweepy, telegram
+import configparser, sys, tweepy, telebot
 from termcolor import colored
 config = configparser.ConfigParser()
 config.read('creds.ini')
@@ -30,5 +30,18 @@ def twitter():
         sys.exit()
 def telegram():
     telegram_token = config.get('Telegram', 'Telegram_Token')
-    bot = telegram.Bot(token=telegram_token)
-exectwitter = twitter()
+    channel_id = config.get('Telegram', 'Channel_ID')
+    if telegram_token == "replace_me" or channel_id == "replace_me":
+        print(colored("read the docs, idiot", 'red'))
+        sys.exit()
+    try:
+        tbot = telebot.TeleBot(telegram_token)
+        print(tbot.get_me())
+        telegram_results = game_name + "-" + release_group + "\n" + thread_link
+        tbot.send_message(channel_id, telegram_results)
+        return("sent telegram message: %s" % telegram_results)
+    except LoginError:
+        print(colored("Invalid Telegram Credentials!", "red"))
+        sys.exit()
+execttelegram = telegram()
+execttwitter = twitter()
