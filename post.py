@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import configparser, sys, tweepy
+import configparser, sys, tweepy, telegram
 from termcolor import colored
 config = configparser.ConfigParser()
 config.read('creds.ini')
@@ -28,4 +28,7 @@ def twitter():
     else:
         print("Oh no.")
         sys.exit()
+def telegram():
+    telegram_token = config.get('Telegram', 'Telegram_Token')
+    bot = telegram.Bot(token=telegram_token)
 exectwitter = twitter()
